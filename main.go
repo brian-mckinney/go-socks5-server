@@ -36,11 +36,16 @@ func main() {
 	flag.Parse()
 
 	if *generateCertificates != "" {
-		keyType, err := certificates.ParseKeyType(*generateCertificates)
-		if err != nil {
-			log.Fatalf("Invalid certificate type: %v", err)
+		if *generateCertificates == "CrossSigned" {
+			err = certificates.GenerateCrossSignedCertificates(0, nil, nil)
+		} else {
+			var keyType certificates.KeyType
+			keyType, err = certificates.ParseKeyType(*generateCertificates)
+			if err != nil {
+				log.Fatalf("Invalid certificate type: %v", err)
+			}
+			err = certificates.GenerateCertificates(keyType, 0, nil, nil)
 		}
-		err = certificates.GenerateCertificates(keyType, 0, nil, nil)
 		if err != nil {
 			log.Fatalf("Error generating certificates: %v", err)
 		}

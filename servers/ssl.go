@@ -168,6 +168,8 @@ func RunTlsServer(cfg config.ServerConfig, status chan bool) {
 	switch cfg.HandlerType {
 	case config.Echo:
 		connHandler = handlers.EchoHandler
+	case config.RstAfterHandshake:
+		connHandler = handlers.RstAfterHandshakeHandler
 	default:
 		log.Printf("Unknown handler type %s, using echo handler", cfg.HandlerType)
 		connHandler = handlers.EchoHandler

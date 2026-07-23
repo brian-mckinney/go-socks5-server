@@ -16,7 +16,8 @@ const (
 	Ssl    ServerType = "ssl-socket"
 	Https  ServerType = "https"
 
-	Echo HandlerType = "echo"
+	Echo              HandlerType = "echo"
+	RstAfterHandshake HandlerType = "rst-after-handshake"
 )
 
 type ServerConfig struct {

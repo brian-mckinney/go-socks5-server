@@ -129,6 +129,7 @@ func GenerateCrossSignedCertificates(expireAfter time.Duration, dnsNames, ipAddr
 		KeyUsage:              x509.KeyUsageCertSign | x509.KeyUsageCRLSign,
 		BasicConstraintsValid: true,
 		IsCA:                  true,
+		AuthorityKeyId:        oldRoot.SubjectKeyId,
 	}
 	crossDER, err := x509.CreateCertificate(rand.Reader, crossTpl, oldRoot, &newRootKey.PublicKey, oldRootKey)
 	if err != nil {

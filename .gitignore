@@ -25,3 +25,6 @@ go.work.sum
 .env
 
 go-test-servers
+
+# generated pem files
+*.pem

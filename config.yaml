@@ -17,7 +17,38 @@ servers:
     enabled: true
     host: 127.0.0.1
     port: 5002
-    certfile: "cert.pem"
-    keyfile: "key.pem"
+    certfile: "server-chain.pem"
+    keyfile: "server-key.pem"
     cafile: "ca.pem"
     handler: "echo"
+    minTlsVersion: "TLSv1.2"
+    maxTlsVersion: "TLSv1.3"
+    # Optional: Specify the cipher suites to use (applies only to TLSv1.2 or earlier)
+    # Note: TLSv1.3 does not allow specifying cipher suites
+    # https://pkg.go.dev/crypto/tls#pkg-constants
+    # test example:
+    # openssl s_client -connect 127.0.0.1:5002 -cert client.pem -key client-key.pem -CAfile ca.pem -tls1_2 -cipher TLS_RSA_WITH_AES_128_CBC_SHA
+    cipherSuites:
+      - "TLS_RSA_WITH_AES_128_CBC_SHA"
+      - "TLS_RSA_WITH_AES_256_CBC_SHA"
+      - "TLS_RSA_WITH_AES_128_GCM_SHA256"
+
+  - type: "https"
+    enabled: true
+    host: 127.0.0.1
+    port: 5003
+    certfile: "server-chain.pem"
+    keyfile: "server-key.pem"
+    cafile: "ca.pem"
+    minTlsVersion: "TLSv1.0"
+    maxTlsVersion: "TLSv1.2"
+    # Optional: Specify the cipher suites to use (applies only to TLSv1.2 or earlier)
+    cipherSuites:
+      - "TLS_RSA_WITH_AES_128_CBC_SHA"
+      - "TLS_RSA_WITH_AES_256_CBC_SHA"
+      - "TLS_RSA_WITH_AES_128_GCM_SHA256"
+    curveTypes:
+      - "P256"
+      - "P384"
+      - "P521"
+      - "X25519"

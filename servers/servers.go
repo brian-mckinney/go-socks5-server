@@ -2,12 +2,12 @@ package servers
 
 import (
 	"fmt"
-	"log"
 	"go-test-servers/config"
+	"log"
 )
 
 func StartServer(cfg config.ServerConfig) error {
-	defer func () {
+	defer func() {
 		// ensure a new line, even if we return early from error
 		fmt.Println()
 	}()
@@ -22,8 +22,8 @@ func StartServer(cfg config.ServerConfig) error {
 		go RunTcpSocketServer(cfg, status)
 	case config.Socks5:
 		go RunSocksServer(cfg, status)
-	case config.Ssl:
-		go RunSslSocketServer(cfg, status)
+	case config.Ssl, config.Https:
+		go RunTlsServer(cfg, status)
 	default:
 		log.Printf("Unknown server type: %s\n", cfg.Type)
 		return fmt.Errorf("unknown server type: %s", cfg.Type)
